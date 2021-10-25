@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Error from './components/Error';
 import Header from './components/Header';
-import './index.css';
+import Freelances from './pages/Freelances/index';
 import Home from './pages/Home/index';
-import Survey from './pages/Survey';
+import Results from './pages/Results/index';
+import Survey from './pages/Survey/index';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +18,12 @@ ReactDOM.render(
         </Route>
         <Route path='/survey/:questionNumber'>
           <Survey />
+        </Route>
+        <Route path='/results'>
+          <Results />
+        </Route>
+        <Route path='/freelances'>
+          <Freelances />
         </Route>
         <Route>
           <Error />

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 import Error from './components/Error';
 import Header from './components/Header';
 import Freelances from './pages/Freelances/index';
@@ -8,9 +9,16 @@ import Home from './pages/Home/index';
 import Results from './pages/Results/index';
 import Survey from './pages/Survey/index';
 
+const GlobalStyle = createGlobalStyle`
+  div {
+    font-family: 'Trebuchet MS', 'Helvetica', sans-serif;
+  }
+`;
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path='/'>

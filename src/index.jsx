@@ -15,9 +15,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ThemeProvider>
-        <GlobalStyle />
-        <Header />
         <SurveyProvider>
+          <GlobalStyle />
+          <Header />
           <Switch>
             <Route exact path='/'>
               <Home />
@@ -35,8 +35,8 @@ ReactDOM.render(
               <Error />
             </Route>
           </Switch>
+          <Footer />
         </SurveyProvider>
-        <Footer />
       </ThemeProvider>
     </Router>
   </React.StrictMode>,

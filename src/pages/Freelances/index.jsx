@@ -1,8 +1,8 @@
 import Card from '../../components/Card';
 import styled from 'styled-components';
 import colors from '../../utils/style/color';
-import { useEffect, useState } from 'react';
 import { Loader } from '../../utils/style/Atoms';
+import { useFetch } from '../../utils/hooks';
 
 const CardsContainer = styled.div`
   display: grid;
@@ -41,22 +41,14 @@ const ErrorDiv = styled.div`
 `;
 
 function Freelances() {
-  const [profiles, setProfils] = useState([]);
-  const [loading, toggleLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const { data, isLoading, error } = useFetch(
+    'http://localhost:8000/freelances'
+  );
+  const profiles = data.freelancersList;
+  const { loading } = isLoading;
+  const { isError } = error;
 
-  useEffect(() => {
-    toggleLoading(true);
-    fetch('http://localhost:8000/freelances')
-      .then((res) => res.json())
-      .then(({ freelancersList }) => setProfils(freelancersList))
-      .catch((e) => {
-        setError(true);
-      })
-      .finally(() => toggleLoading(false));
-  }, []);
-
-  if (error) {
+  if (isError) {
     return <ErrorDiv>Oups! Il y'a un probléme ...</ErrorDiv>;
   }
 
@@ -68,14 +60,15 @@ function Freelances() {
       </PageSubtitle>
       {!loading ? (
         <CardsContainer>
-          {profiles.map((profile) => (
-            <Card
-              key={profile.id}
-              label={profile.job}
-              title={profile.name}
-              picture={profile.picture}
-            />
-          ))}
+          {profiles &&
+            profiles.map((profile) => (
+              <Card
+                key={profile.id}
+                label={profile.job}
+                title={profile.name}
+                picture={profile.picture}
+              />
+            ))}
         </CardsContainer>
       ) : (
         <LoaderWrapper>

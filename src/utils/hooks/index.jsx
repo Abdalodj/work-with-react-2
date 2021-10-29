@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 export function useFetch(url) {
   const [data, setData] = useState({});
@@ -28,4 +28,12 @@ export function useFetch(url) {
   }, [url]);
 
   return { isLoading, data, error };
+}
+
+export function useTheme(themeContext) {
+  const { theme, toggleTheme } = useContext(themeContext);
+
+  const isDark = theme === 'dark';
+
+  return { toggleTheme, isDark };
 }

@@ -1,11 +1,9 @@
 import { useContext } from 'react';
-import { SurveyContext } from '../../utils/context';
+import { SurveyContext, ThemeContext } from '../../utils/context';
 import styled from 'styled-components';
-import colors from '../../utils/style/colors';
+import colors from '../../utils/style/color';
 import { useFetch } from '../../utils/hooks';
-import { StyledLink, Loader } from '../../utils/style/Atoms';
-import { ThemeContext } from '../../utils/context';
-
+import { Loader, StyledLink } from '../../utils/style/Atoms';
 const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;

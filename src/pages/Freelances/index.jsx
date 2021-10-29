@@ -1,7 +1,7 @@
 import Card from '../../components/Card';
 import styled from 'styled-components';
 import colors from '../../utils/style/color';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader } from '../../utils/style/Atoms';
 
 const CardsContainer = styled.div`
@@ -45,7 +45,7 @@ function Freelances() {
   const [loading, toggleLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  useState(() => {
+  useEffect(() => {
     toggleLoading(true);
     fetch('http://localhost:8000/freelances')
       .then((res) => res.json())
@@ -68,7 +68,7 @@ function Freelances() {
       </PageSubtitle>
       {!loading ? (
         <CardsContainer>
-          {profiles.map((profile, index) => (
+          {profiles.map((profile) => (
             <Card
               key={profile.id}
               label={profile.job}

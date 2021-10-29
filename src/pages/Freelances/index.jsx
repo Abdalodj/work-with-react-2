@@ -57,7 +57,7 @@ function Freelances() {
   }, []);
 
   if (error) {
-    return <ErrorDiv>Oups! Il y'a un probléme</ErrorDiv>;
+    return <ErrorDiv>Oups! Il y'a un probléme ...</ErrorDiv>;
   }
 
   return (

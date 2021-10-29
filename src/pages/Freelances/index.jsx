@@ -44,7 +44,7 @@ function Freelances() {
   const { data, isLoading, error } = useFetch(
     'http://localhost:8000/freelances'
   );
-  const profiles = data.freelancersList;
+  const profiles = data?.freelancersList;
   const { loading } = isLoading;
   const { isError } = error;
 
@@ -60,15 +60,14 @@ function Freelances() {
       </PageSubtitle>
       {!loading ? (
         <CardsContainer>
-          {profiles &&
-            profiles.map((profile) => (
-              <Card
-                key={profile.id}
-                label={profile.job}
-                title={profile.name}
-                picture={profile.picture}
-              />
-            ))}
+          {profiles.map((profile) => (
+            <Card
+              key={profile.id}
+              label={profile.job}
+              title={profile.name}
+              picture={profile.picture}
+            />
+          ))}
         </CardsContainer>
       ) : (
         <LoaderWrapper>

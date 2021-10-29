@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import colors from '../../utils/style/color';
 import { useFetch } from '../../utils/hooks';
 import { Loader, StyledLink } from '../../utils/style/Atoms';
+
 const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import { formatJobList, formatFetchParams } from './index';
+import { formatJobList, formatQueryParams } from './index';
 
 describe('Functions in results page', () => {
   describe('The formatJobList function', () => {
@@ -12,14 +12,16 @@ describe('Functions in results page', () => {
     });
   });
 
-  describe('The formatFetchParams function', () => {
-    it("should add '&' symbol between parameters", () => {
-      const expectation = 'a1=1&a2=2';
-      expect(formatFetchParams({ 1: 1, 2: 2 })).toEqual(expectation);
+  describe('The formatQueryParams function', () => {
+    it('should use the right format for param', () => {
+      const expectedState = 'a1=answer1';
+      expect(formatQueryParams({ 1: 'answer1' })).toEqual(expectedState);
     });
-    it("should not add '&' symbol to only one parameter", () => {
-      const expectation = 'a1=1';
-      expect(formatFetchParams({ 1: 1 })).toEqual(expectation);
+    it('should concatenate params with an &', () => {
+      const expectedState = 'a1=answer1&a2=answer2';
+      expect(formatQueryParams({ 1: 'answer1', 2: 'answer2' })).toEqual(
+        expectedState
+      );
     });
   });
 });

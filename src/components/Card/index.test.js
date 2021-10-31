@@ -1,38 +1,36 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import Card from './';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider } from '../../utils/context';
-import Profile from '../../assets/profile2.png';
-import Card from './index';
 
-describe('The Card component', () => {
-  it('should render without crash', () => {
+describe('Card', () => {
+  test('Should render title and image', async () => {
     render(
       <ThemeProvider>
-        <Card />
+        <Card
+          title='Harry Potter'
+          label='Magicien frontend'
+          picture='/myPicture.png'
+        />
       </ThemeProvider>
     );
+    const cardPicture = screen.getByRole('img');
+    const cardTitle = screen.getByText(/Harry/i);
+    expect(cardPicture.src).toBe('http://localhost/myPicture.png');
+    expect(cardTitle.textContent).toBe(' Harry Potter ');
   });
-
-  it('should show the passed picture the passed title and stars only if the card is clicked', () => {
+  test('Should add ⭐️ around title', async () => {
     render(
       <ThemeProvider>
-        <Card picture={Profile} title='Mon Titre' />
+        <Card
+          title='Harry Potter'
+          label='Magicien frontend'
+          picture='/myPicture.png'
+        />
       </ThemeProvider>
     );
-
-    expect(
-      screen.findByRole('img', {
-        src: 'profile2.png',
-        alt: 'freelance'
-      })
-    ).toBeTruthy();
-
-    /* screen.debug(); */
-    const titleDiv = screen.getByTestId('divTitle');
-    expect(titleDiv.textContent).toBe(' Mon Titre ');
-
-    const parentDiv = titleDiv.closest('div');
-    fireEvent.click(parentDiv);
-    expect(titleDiv.textContent).toBe('⭐️ Mon Titre ⭐️');
+    const cardTitle = screen.getByText(/Harry/i);
+    const parentNode = cardTitle.closest('div');
+    fireEvent.click(parentNode);
+    expect(cardTitle.textContent).toBe('⭐️ Harry Potter ⭐️');
   });
 });

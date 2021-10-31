@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import { SurveyContext } from '../../utils/context';
 import styled from 'styled-components';
-import colors from '../../utils/style/color';
+import EmptyList from '../../components/EmptyList';
+import { SurveyContext } from '../../utils/context';
 import { useFetch, useTheme } from '../../utils/hooks';
 import { Loader, StyledLink } from '../../utils/style/Atoms';
+import colors from '../../utils/style/color';
 
 const ResultsContainer = styled.div`
   display: flex;
@@ -84,6 +85,10 @@ function Results() {
   }
 
   const resultsData = data?.resultsData;
+
+  if (resultsData?.length < 1) {
+    return <EmptyList theme={theme} />;
+  }
 
   return isLoading ? (
     <LoaderWrapper>

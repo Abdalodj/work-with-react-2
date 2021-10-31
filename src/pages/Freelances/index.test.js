@@ -52,4 +52,26 @@ describe('The Freelancers component', () => {
       expect(screen.getByText('Hermione Granger')).toBeTruthy();
     });
   });
+
+  it('Should display error content', async () => {
+    server.use(
+      rest.get('http://localhost:8000/freelances', (req, res, ctx) => {
+        return res.once(
+          ctx.status(500),
+          ctx.json({
+            errorMessage: `Oups il y a eu une erreur dans l'API`
+          })
+        );
+      })
+    );
+    render(<Freelances />);
+    await waitForElementToBeRemoved(() => screen.getByTestId('loader'));
+    expect(screen.getByTestId('error')).toMatchInlineSnapshot(`
+      <span
+        data-testid="error"
+      >
+        Oups il y a eu une erreur dans l'API
+      </span>
+    `);
+  });
 });

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../components/Card';
 import { useFetch, useTheme } from '../../utils/hooks';
@@ -59,12 +60,16 @@ function Freelances() {
       ) : (
         <CardsContainer>
           {freelancersList?.map((profile, index) => (
-            <Card
+            <Link
               key={`${profile.name}-${index}`}
-              label={profile.job}
-              title={profile.name}
-              picture={profile.picture}
-            />
+              to={`/profile/${profile.id}`}
+            >
+              <Card
+                label={profile.job}
+                title={profile.name}
+                picture={profile.picture}
+              />
+            </Link>
           ))}
         </CardsContainer>
       )}

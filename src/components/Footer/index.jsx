@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ThemeContext } from '../../utils/context';
 import { useTheme } from '../../utils/hooks';
 import colors from '../../utils/style/color';
 
@@ -19,12 +18,12 @@ const NightModeButton = styled.button`
 `;
 
 function Footer() {
-  const { toggleTheme, isDark } = useTheme(ThemeContext);
+  const { toggleTheme, theme } = useTheme();
 
   return (
     <FooterContainer>
       <NightModeButton onClick={() => toggleTheme()}>
-        Changer de mode : {!isDark ? '☀️' : '🌙'}
+        Changer de mode : {theme !== 'dark' ? '☀️' : '🌙'}
       </NightModeButton>
     </FooterContainer>
   );

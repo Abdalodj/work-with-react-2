@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { ThemeContext } from '../context';
 
 export function useFetch(url) {
   const [data, setData] = useState({});
@@ -7,33 +8,25 @@ export function useFetch(url) {
 
   useEffect(() => {
     if (!url) return;
-
+    setLoading(true);
     async function fetchData() {
       try {
         const response = await fetch(url);
-
         const data = await response.json();
-
         setData(data);
       } catch (err) {
+        console.log(err);
         setError(true);
       } finally {
         setLoading(false);
       }
     }
-
-    setLoading(true);
-
     fetchData();
   }, [url]);
-
   return { isLoading, data, error };
 }
 
-export function useTheme(themeContext) {
-  const { theme, toggleTheme } = useContext(themeContext);
-
-  const isDark = theme === 'dark';
-
-  return { toggleTheme, isDark };
+export function useTheme() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  return { theme, toggleTheme };
 }

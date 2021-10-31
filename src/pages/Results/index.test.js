@@ -1,4 +1,9 @@
-import { formatJobList, formatQueryParams } from './';
+import Results, { formatJobList, formatQueryParams } from './';
+import { rest } from 'msw';
+import '@testing-library/jest-dom/extend-expect';
+import { setupServer } from 'msw/node';
+import { render } from '../../utils/test';
+import { screen, waitFor } from '@testing-library/react';
 
 describe('The getJobTitle function', () => {
   it('should add a comma to a word', () => {
@@ -21,5 +26,38 @@ describe('The formatQueryParams function', () => {
     expect(formatQueryParams({ 1: 'answer1', 2: 'answer2' })).toEqual(
       expectedState
     );
+  });
+
+  describe('Fetching from the server', () => {
+    const answersMockedData = [
+      {
+        title: 'backend',
+        description: 'Le backend partie imergée'
+      },
+      {
+        title: 'design',
+        description: 'En charge du design'
+      }
+    ];
+
+    const server = setupServer(
+      rest.get('http://localhost:8000/results', (req, res, ctx) => {
+        return res(ctx.json({ resultsData: answersMockedData }));
+      })
+    );
+
+    beforeAll(() => server.listen());
+    afterEach(() => server.resetHandlers());
+    afterAll(() => server.close());
+
+    it('Should display results after API call', async () => {
+      render(<Results />);
+      await waitFor(() => {
+        expect(
+          screen.getByText('Le backend partie imergée')
+        ).toBeInTheDocument();
+        expect(screen.getByText('En charge du design')).toBeInTheDocument();
+      });
+    });
   });
 });

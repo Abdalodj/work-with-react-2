@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Component } from 'react';
+import { useState } from 'react';
 import colors from '../../utils/style/color';
+import { useTheme } from '../../utils/hooks';
 
 const InputWrapper = styled.div`
   color: ${({ theme }) => (theme === 'light' ? colors.dark : 'white')};
@@ -22,7 +23,23 @@ const StyledInput = styled.input`
   margin-bottom: 15px;
 `;
 
-class EmailInput extends Component {
+function EmailInput() {
+  const { theme } = useTheme();
+  const [inputValue, setInputValue] = useState('');
+
+  return (
+    <InputWrapper theme={theme}>
+      <StyledLabel theme={theme}>Adresse Email</StyledLabel>
+      <StyledInput
+        theme={theme}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
+      {inputValue}
+    </InputWrapper>
+  );
+}
+
+/* class EmailInputs extends Component {
   constructor(props) {
     // L'autre manière de binder de manière explicite votre fonction au this
     // this.updateInputValue =this.updateInputValue.bind(this)
@@ -50,6 +67,6 @@ class EmailInput extends Component {
       </InputWrapper>
     );
   }
-}
+} */
 
 export default EmailInput;

@@ -1,6 +1,6 @@
-import { Component } from 'react';
 import styled from 'styled-components';
 import EmptyIllustration from '../../assets/empty.svg';
+import { useTheme } from '../../utils/hooks';
 import colors from '../../utils/style/color';
 
 const Container = styled.div`
@@ -25,8 +25,21 @@ const SubTitle = styled.h3`
 const Illustration = styled.img`
   margin: 30px 0;
 `;
+function EmptyList() {
+  const { theme } = useTheme();
 
-class EmptyList extends Component {
+  return (
+    <Container theme={theme}>
+      <Title theme={theme}>Dommage...</Title>
+      <Illustration src={EmptyIllustration} />
+      <SubTitle theme={theme}>
+        Il semblerait que vous n’ayez besoin d’aucune compétence
+      </SubTitle>
+    </Container>
+  );
+}
+
+/* class EmptyLists extends Component {
   render() {
     const { theme } = this.props;
     return (
@@ -39,6 +52,6 @@ class EmptyList extends Component {
       </Container>
     );
   }
-}
+} */
 
 export default EmptyList;

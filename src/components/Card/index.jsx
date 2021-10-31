@@ -50,6 +50,12 @@ class Card extends Component {
       isFavorite: false
     };
   }
+  setFavorite = () => {
+    const newFav = !this.state.isFavorite;
+    this.setState({
+      isFavorite: newFav
+    });
+  };
 
   render() {
     const { theme, picture, label, title } = this.props;
@@ -58,7 +64,9 @@ class Card extends Component {
       <CardWrapper theme={theme} onClick={this.setFavorite}>
         <CardLabel theme={theme}>{label}</CardLabel>
         <CardImage src={picture} alt='freelance' />
-        <CardTitle theme={theme}>{title}</CardTitle>
+        <CardTitle theme={theme}>
+          {this.state.isFavorite ? `⭐️ ${title} ⭐️` : `${title}`}
+        </CardTitle>
       </CardWrapper>
     );
   }

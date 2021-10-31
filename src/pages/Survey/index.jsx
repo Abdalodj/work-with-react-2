@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SurveyContext } from '../../utils/context';
-import { useFetch } from '../../utils/hooks';
+import { useFetch, useTheme } from '../../utils/hooks';
 import { Loader } from '../../utils/style/Atoms';
 import colors from '../../utils/style/color';
 
@@ -67,15 +67,15 @@ function Survey() {
   const prevQuestionNumber =
     questionNumberInt === 1 ? 1 : questionNumberInt - 1;
   const nextQuestionNumber = questionNumberInt + 1;
+  const { theme } = useTheme();
 
   const { saveAnswers, answers } = useContext(SurveyContext);
 
   function saveReply(answer) {
     saveAnswers({ [questionNumber]: answer });
   }
-
   const { data, isLoading, error } = useFetch(`http://localhost:8000/survey`);
-  const { surveyData } = data;
+  const surveyData = data?.surveyData;
 
   if (error) {
     return <span>Il y a un problème</span>;
@@ -83,11 +83,11 @@ function Survey() {
 
   return (
     <SurveyContainer>
-      <QuestionTitle>Question {questionNumber}</QuestionTitle>
+      <QuestionTitle theme={theme}>Question {questionNumber}</QuestionTitle>
       {isLoading ? (
         <Loader />
       ) : (
-        <QuestionContent>
+        <QuestionContent theme={theme}>
           {surveyData && surveyData[questionNumber]}
         </QuestionContent>
       )}
@@ -95,17 +95,19 @@ function Survey() {
         <ReplyBox
           onClick={() => saveReply(true)}
           isSelected={answers[questionNumber] === true}
+          theme={theme}
         >
           Oui
         </ReplyBox>
         <ReplyBox
           onClick={() => saveReply(false)}
           isSelected={answers[questionNumber] === false}
+          theme={theme}
         >
           Non
         </ReplyBox>
       </ReplyWrapper>
-      <LinkWrapper>
+      <LinkWrapper theme={theme}>
         <Link to={`/survey/${prevQuestionNumber}`}>Précédent</Link>
         {surveyData && surveyData[questionNumberInt + 1] ? (
           <Link to={`/survey/${nextQuestionNumber}`}>Suivant</Link>

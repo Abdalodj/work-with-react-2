@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { ThemeContext } from '../../utils/context';
+import { useFetch, useTheme } from '../../utils/hooks';
 import colors from '../../utils/style/color';
 
 const ProfileWrapper = styled.div`
@@ -86,7 +86,44 @@ const Availability = styled.span`
   position: relative;
 `;
 
-class Profile extends Component {
+function Profile() {
+  const { id: idFree } = useParams();
+  const { theme } = useTheme();
+  const { data } = useFetch(`http://localhost:8000/freelance?id=${idFree}`);
+
+  if (Object.keys(data).length === 0) {
+    return <div>waiting !!!!!!!!</div>;
+  }
+  const { picture, name, location, tjm, job, skills, available, id } =
+    data?.freelanceData ?? null;
+
+  return (
+    <ProfileWrapper theme={theme}>
+      <Picture src={picture} alt={name} height={150} width={150} />
+      <ProfileDetails theme={theme}>
+        <TitleWrapper>
+          <Title>{name}</Title>
+          <Location>{location}</Location>
+        </TitleWrapper>
+        <JobTitle>{job}</JobTitle>
+        <SkillsWrapper>
+          {skills &&
+            skills.map((skill) => (
+              <Skill key={`skill-${skill}-${id}`} theme={theme}>
+                {skill}
+              </Skill>
+            ))}
+        </SkillsWrapper>
+        <Availability available={available}>
+          {available ? 'Disponible maintenant' : 'Indisponible'}
+        </Availability>
+        <Price>{tjm} € / jour</Price>
+      </ProfileDetails>
+    </ProfileWrapper>
+  );
+}
+
+/* class Profiles extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -137,6 +174,6 @@ class Profile extends Component {
       </ThemeContext.Consumer>
     );
   }
-}
+} */
 
 export default Profile;

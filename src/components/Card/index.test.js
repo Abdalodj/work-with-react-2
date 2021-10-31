@@ -7,21 +7,17 @@ import Card from './index';
 describe('The Card component', () => {
   it('should render without crash', () => {
     render(
-      <MemoryRouter>
-        <ThemeProvider>
-          <Card />
-        </ThemeProvider>
-      </MemoryRouter>
+      <ThemeProvider>
+        <Card />
+      </ThemeProvider>
     );
   });
 
   it('should show the passed picture the passed title and stars only if the card is clicked', () => {
     render(
-      <MemoryRouter>
-        <ThemeProvider>
-          <Card picture={Profile} title='Mon Titre' />
-        </ThemeProvider>
-      </MemoryRouter>
+      <ThemeProvider>
+        <Card picture={Profile} title='Mon Titre' />
+      </ThemeProvider>
     );
 
     expect(
